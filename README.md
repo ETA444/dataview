@@ -6,6 +6,6 @@
 
 ## Folders & Files
 - **main**
-	- `dataview.rb`:  legacy script of the DataView idea in Ruby.
+	- `dataview.rb`:  legacy script of the DataView idea written in Ruby.
 - **testing files**
 	- `samplecsv-1.csv`: sample dataset with various data types and 100000 rows
