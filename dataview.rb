@@ -113,7 +113,11 @@ def generate_histogram(data, column_name)
  	histogram.data column_name, data
 
 	# naming convention of files
-	histogram.write("#{column_name}-histogram-#{rand(100..999)}.png")
+	filename_hist = "#{column_name}-histogram-#{rand(100..999)}.png"
+	histogram.write(filename_hist)
+
+	# notify user per file
+	puts "The histogram for the '#{column_name}' column, is called '#{filename_hist}'"
 end
 
 def generate_boxplot(data, column_name)
@@ -123,11 +127,15 @@ def generate_boxplot(data, column_name)
 	boxplot.data column_name, data
 
 	# naming convention of the files
-	boxplot.write("#{column_name}-boxplot-#{rand(100..999)}.png")
+	filename_box = "#{column_name}-boxplot-#{rand(100..999)}.png"
+	boxplot.write(filename_box)
+
+	# notify user per file
+	puts "The boxplot for the '#{column_name}' column, is called '#{filename_box}'"
 
 end
 
-def calculate_descriptive_statistics(data, column_name)
+def calculate_descstat_num(data, column_name)
 	# descstats object
 	stats = data.descriptive_statistics
 	
@@ -154,10 +162,14 @@ def generate_bar_chart(data, column_name)
 	end
 
 	# naming convention of the files
-	bar_chart.write("#{column_name}-barchart-#{rand(100..999)}.png")
+	filename_bar = "#{column_name}-barchart-#{rand(100..999)}.png"
+	bar_chart.write(filename_bar)
+
+	# notify user of created file
+
 end
 
-def calculate_categorical_statistics(data, column_name)
+def calculate_descstat_cat(data, column_name)
 	# count the frequency of each category
 	category_counts = data.each_with_object(Hash.new(0)) { |value, counts| counts[value] += 1 }
 
@@ -177,18 +189,19 @@ if num_columns != 'none'
 		data = csv_data[col] #get the data
 		generate_histogram(data, col) #histogram per column
 		generate_boxplot(data, col) #boxplot per column
-		calculate_descriptive_statistics(data, col) # descstats per column
+		calculate_descstat_num(data, col) # descstats per num col
   	end
 end
 
 if cat_columns != 'none'
-	num_columns.each do |col|
+	cat_columns.each do |col|
 		data = csv_data[col] #get the data
-		generate_histogram(data, col) #histogram per column
-		generate_boxplot(data, col) #boxplot per column
-		calculate_descriptive_statistics(data, col) # descstats per column
+		generate_bar_chart(data, col) #bar chart per column
+		calculate_descstat_cat(data, col) # descstats per cat col
   	end
 end
+
+# final dialogue #
 
 
 
