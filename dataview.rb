@@ -117,7 +117,7 @@ def generate_histogram(data, column_name)
 	histogram.write(filename_hist)
 
 	# notify user per file
-	puts "The histogram for the '#{column_name}' column, is called '#{filename_hist}'"
+	puts "The histogram for the '#{column_name}' column, is called '#{filename_hist}'".colorize(:light_blue)
 end
 
 def generate_boxplot(data, column_name)
@@ -131,7 +131,7 @@ def generate_boxplot(data, column_name)
 	boxplot.write(filename_box)
 
 	# notify user per file
-	puts "The boxplot for the '#{column_name}' column, is called '#{filename_box}'"
+	puts "The boxplot file for the '#{column_name}' column, is called '#{filename_box}'".colorize(:light_blue)
 
 end
 
@@ -140,9 +140,13 @@ def calculate_descstat_num(data, column_name)
 	stats = data.descriptive_statistics
 	
 	# create the file and input the data
-	File.open("descriptivestatistics-#{column_name}.txt", 'w') do |file|
+	filename_descstat_num = "descriptivestatistics-#{column_name}.txt"
+	File.open(filename_descstat_num, 'w') do |file|
 		file.puts "Statistics for #{column_name}:"
 		stats.each { |key, value| file.puts "#{key}: #{value}" }
+
+		# notify user per file
+		puts "The desc. statistics file for the '#{column_name}' column, is called '#{filename_descstat_num}'".colorize(:light_blue)
 	end
 end
 
@@ -165,7 +169,8 @@ def generate_bar_chart(data, column_name)
 	filename_bar = "#{column_name}-barchart-#{rand(100..999)}.png"
 	bar_chart.write(filename_bar)
 
-	# notify user of created file
+	# notify user per file
+	puts "The bar chart file for the '#{column_name}' column, is called '#{filename_bar}'".colorize(:light_blue)
 
 end
 
@@ -174,9 +179,13 @@ def calculate_descstat_cat(data, column_name)
 	category_counts = data.each_with_object(Hash.new(0)) { |value, counts| counts[value] += 1 }
 
 	# create file and input the data
-	File.open("categoricalstats-#{column_name}.txt", 'w') do |file|
+	filename_descstat_cat = "categoricalstats-#{column_name}.txt"
+	File.open(filename_descstat_cat, 'w') do |file|
 		file.puts "Category counts for #{column_name}:"
 		category_counts.each { |category, count| file.puts "#{category}: #{count}" }
+
+		# notify user per file
+		puts "The desc. statistics file for the '#{column_name}' column, is called '#{filename_descstat_cat}'".colorize(:light_blue)
 	end
 end
 
@@ -202,8 +211,7 @@ if cat_columns != 'none'
 end
 
 # final dialogue #
+puts "All done!".colorize(:green)
 
-
-
-
-
+exit(0)
+exit(1)
