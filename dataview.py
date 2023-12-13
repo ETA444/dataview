@@ -53,18 +53,46 @@ def visualyze_num (df, column):
 	plt.figure(figsize=(10,6))
 	sns.histplot(df[column], kde=True)
 	plt.title(f"Histogram of {column}")
-	plt.savefig(f"histogram-{column}.png")
+	hist_fname = f"{column}-histogram.png"
+	plt.savefig(hist_fname)
+	plt.close()
+	print(f"{Colors.BLUE} Saved histogram of \'{column}\' column as \'{hist_fname}\'")
 
 	# boxplot #
 	plt.figure(figsize=(10,6))
 	sns.boxplot(y=df[column])
 	plt.title(f"Boxplot of {column}")
-	plt.savefig(f"boxplot-{column}.png")
+	box_fname = f"{column}-boxplot.png"
+	plt.savefig(box_fname)
+	plt.close()
+	print(f"{Colors.BLUE} Saved boxplot of \'{column}\' column as \'{box_fname}\'")
+
 
 # [visualyze_cat()]:  generates appropriate visuals 	#
 # 				 	  for felines 						#
 def visualyze_cat(df, column):
+	# bar countplot #
+	plt.figure(figsize=(10,6))
+	sns.countplot(y=df[column])
+	plt.title(f"Count Plot of {column}")
+	count_fname = f"{column}-countplot.png"
+	plt.savefig(count_fname)
+	plt.close()
+	print(f"{Colors.BLUE} Saved countplot of \'{column}\' column as \'{count_fname}\'")
 
+# [descrybe_num()]: calculate descriptive statistics for #
+# 					numerical data 						 #
+def descrybe_num(df, column, file):
+	file.write(f"Statistics for {column}:\n")
+	file.write(df[column].describe().to_string())
+	file.write("\n\n")
+
+# [descrybe_cat()]: calculate descriptive statistics for #
+# 					categorical data 					 #
+def descrybe_cat(df, column, file):
+	file.write(f"Frequency Counts for {column}:\n")
+	file.write(df[column].value_counts().to_string())
+	file.write("\n\n")
 
 # --- main function --- #
 
