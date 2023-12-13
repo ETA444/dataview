@@ -3,6 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+import tkinter as tk
+from tkinter import filedialog
 
 # --- legend --- #
 # ui = user input
@@ -27,14 +29,14 @@ def read_csv(file_path):
 	try:
 		return pd.read_csv(file_path)
 	except Exception as e:
-		print(f"{Colors.RED}An error occured importing the .csv: {e}")
+		print(f"{Colors.RED}[ERROR] An error occured importing the .csv: {e}{Colors.RESET}")
 		return None
 
-# [choose_columns()]: show available columns in .csv and ask #
+# [select_columns()]: show available columns in .csv and ask #
 # 					  user which columns they will work with #
-def choose_columns(df):
+def select_columns(df):
 	print(f"{Colors.BLUE}Available columns: ", df.columns.tolist())
-	ui_columns = input(f"{Colors.GREEN}Enter the column(s) you want to work with (use , to seperate): ")
+	ui_columns = input(f"{Colors.GREEN}Enter the column(s) you want to work with (use , to seperate): {Colors.RESET}")
 	selected_columns = [col.strip() for col in ui_columns(',')]
 	return selected_columns
 
@@ -56,7 +58,7 @@ def visualyze_num (df, column):
 	hist_fname = f"{column}-histogram.png"
 	plt.savefig(hist_fname)
 	plt.close()
-	print(f"{Colors.BLUE} Saved histogram of \'{column}\' column as \'{hist_fname}\'")
+	print(f"{Colors.BLUE} Saved histogram of \'{column}\' column as \'{hist_fname}\' in the current directory.{Colors.RESET}")
 
 	# boxplot #
 	plt.figure(figsize=(10,6))
@@ -65,7 +67,7 @@ def visualyze_num (df, column):
 	box_fname = f"{column}-boxplot.png"
 	plt.savefig(box_fname)
 	plt.close()
-	print(f"{Colors.BLUE} Saved boxplot of \'{column}\' column as \'{box_fname}\'")
+	print(f"{Colors.BLUE} Saved boxplot of \'{column}\' column as \'{box_fname}\' in the current directory.{Colors.RESET}")
 
 
 # [visualyze_cat()]:  generates appropriate visuals 	#
@@ -78,7 +80,7 @@ def visualyze_cat(df, column):
 	count_fname = f"{column}-countplot.png"
 	plt.savefig(count_fname)
 	plt.close()
-	print(f"{Colors.BLUE} Saved countplot of \'{column}\' column as \'{count_fname}\'")
+	print(f"{Colors.BLUE} Saved countplot of \'{column}\' column as \'{count_fname}\' in the current directory.{Colors.RESET}")
 
 # [descrybe_num()]: calculate descriptive statistics for #
 # 					numerical data 						 #
@@ -96,13 +98,43 @@ def descrybe_cat(df, column, file):
 
 # --- main function --- #
 def dataview():
-	
+	# inititial dialogue #
+	print(f"{Colors.BLUE} Welcome to DataView! (version 1.0)")
+	print(f"Notes: ")
+	print(f"(1) DataView 1.0 only works with clean data.")
+	print(f"(2) DataView 1.0 distinguishes between numerical and categorical data and generates the appropriate visuals and descriptive statistics.")
+	print(f"(3) DataView 1.0 generates: histograms, boxplots and countplots as .PNG\'s.")
+	print(f"(4) The descriptive statistics are saved into .TXT\'s.")
+	print(f"* All files are saved in the current directory. *{Colors.RESET}")
 
+	# set up a root window for tk but don't display it #
+	root = tk.Tk()
+	root.withdraw()
+
+	# open a file dialog to select the CSV file #
+	file_path = filedialog.askopenfilename(title="Select a CSV file", filetypes=[("CSV files", "*.csv")])
+
+    # main functionality #
+    if file_path:
+        df = read_csv(file_path)
+        if df is not None:
+            selected_columns = select_columns(df)
+
+            with open(f"descriptivestatistics-{file_path.split('/')[-1]}.txt", 'w') as stats_file:
+                for column in selected_columns:
+                    if is_num(df[column]):
+                        visualyze_num(df, column)
+                        descrybe_num(df, column, stats_file)
+                    elif is_cat(df[column]):
+                        visualyze_cat(df, column)
+                        descrybe_cat(df, column, stats_file)
+                    else:
+                        print(f"{Colors.RED}[NOTICE] Column {column} is neither strictly numerical nor categorical. No visualizations or descriptives were generated.{Colors.RESET}")
+    else:
+        print(f"{Colors.RED}[ERROR] No CSV file selected.{Colors.RESET}")
 
 # make sure script runs properly
 if __name__ == "__main__":
     dataview()
 
 # --- test area --- #
-
-# test colors print(f"{Colors.GREEN} Hello !{Colors.RESET}")
