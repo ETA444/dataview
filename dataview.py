@@ -1,16 +1,7 @@
-# --- required libraries --- #
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
-import tkinter as tk
-from tkinter import filedialog
-
 # --- legend --- #
 # ui = user input
 
 # --- colors for output --- #
-# example usage: print(f"{Colors.GREEN}This is green text!{Colors.RESET}")
 class Colors:
     RED = '\033[91m'
     GREEN = '\033[92m'
@@ -21,6 +12,78 @@ class Colors:
     WHITE = '\033[97m'
     RESET = '\033[0m'
 
+# [check_libraries]: check if user has the necessary libraries #
+import sys
+def check_libraries():
+	libraries = ["pandas", "matplotlib", "seaborn", "numpy", "tkinter"]
+	missing_libraries = []
+
+	for lib in libraries:
+		try:
+			__import__(lib)
+		except ImportError:
+			missing_libraries.append(lib)
+	
+	return missing_libraries
+
+# --- main function --- #
+def dataview():
+	# initial dialogue - library check #
+	print(f"{Colors.RED} Performing library check ...")
+	missing_libraries = check_libraries()
+	if missing_libraries:
+		print("The following required libraries are missing:")
+		print(", ".join(missing_libraries))
+		print("Please install them before running this script.")
+		sys.exit(1)
+
+	# welcome dialogue #
+	print(f"{Colors.BLUE} Welcome to DataView! (version 1.0)")
+	print(f"Notes: ")
+	print(f"(1) DataView 1.0 only works with clean data.")
+	print(f"(2) DataView 1.0 distinguishes between numerical and categorical data and generates the appropriate visuals and descriptive statistics.")
+	print(f"(3) DataView 1.0 generates: histograms, boxplots and countplots as .PNG\'s.")
+	print(f"(4) The descriptive statistics are saved into .TXT\'s.")
+	print(f"* All files are saved in the current directory. *{Colors.RESET}")
+
+	# set up a root window for tk but don't display it #
+	root = tk.Tk()
+	root.withdraw()
+
+	# open a file dialog to select the CSV file #
+	file_path = filedialog.askopenfilename(title="Select a CSV file", filetypes=[("CSV files", "*.csv")])
+
+	# main functionality #
+	if file_path:
+		df = read_csv(file_path)
+		
+		if df is not None:
+			selected_columns = select_columns(df)
+
+		with open(f"descriptivestatistics-{file_path.split('/')[-1]}.txt", 'w') as stats_file:
+			for column in selected_columns:
+				if is_num(df[column]):
+					visualyze_num(df, column)
+					descrybe_num(df, column, stats_file)
+				elif is_cat(df[column]):
+					visualyze_cat(df, column)
+					descrybe_cat(df, column, stats_file)
+				else:
+					print(f"{Colors.RED}[NOTICE] Column {column} is neither strictly numerical nor categorical. No visualizations or descriptives were generated.{Colors.RESET}")
+	else:
+		print(f"{Colors.RED}[ERROR] No CSV file selected.{Colors.RESET}")
+
+# make sure script runs properly
+if __name__ == "__main__":
+	dataview()
+
+# --- required libraries --- #
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+import tkinter as tk
+from tkinter import filedialog
 
 # --- accessory functions --- #
  
@@ -95,47 +158,3 @@ def descrybe_cat(df, column, file):
 	file.write(f"Frequency Counts for {column}:\n")
 	file.write(df[column].value_counts().to_string())
 	file.write("\n\n")
-
-# --- main function --- #
-def dataview():
-	# inititial dialogue #
-	print(f"{Colors.BLUE} Welcome to DataView! (version 1.0)")
-	print(f"Notes: ")
-	print(f"(1) DataView 1.0 only works with clean data.")
-	print(f"(2) DataView 1.0 distinguishes between numerical and categorical data and generates the appropriate visuals and descriptive statistics.")
-	print(f"(3) DataView 1.0 generates: histograms, boxplots and countplots as .PNG\'s.")
-	print(f"(4) The descriptive statistics are saved into .TXT\'s.")
-	print(f"* All files are saved in the current directory. *{Colors.RESET}")
-
-	# set up a root window for tk but don't display it #
-	root = tk.Tk()
-	root.withdraw()
-
-	# open a file dialog to select the CSV file #
-	file_path = filedialog.askopenfilename(title="Select a CSV file", filetypes=[("CSV files", "*.csv")])
-
-	# main functionality #
-	if file_path:
-		df = read_csv(file_path)
-		
-		if df is not None:
-		selected_columns = select_columns(df)
-
-		with open(f"descriptivestatistics-{file_path.split('/')[-1]}.txt", 'w') as stats_file:
-			for column in selected_columns:
-				if is_num(df[column]):
-					visualyze_num(df, column)
-					descrybe_num(df, column, stats_file)
-				elif is_cat(df[column]):
-					visualyze_cat(df, column)
-					descrybe_cat(df, column, stats_file)
-				else:
-					print(f"{Colors.RED}[NOTICE] Column {column} is neither strictly numerical nor categorical. No visualizations or descriptives were generated.{Colors.RESET}")
-		else:
-			print(f"{Colors.RED}[ERROR] No CSV file selected.{Colors.RESET}")
-
-# make sure script runs properly
-if __name__ == "__main__":
-	dataview()
-
-# --- test area --- #
