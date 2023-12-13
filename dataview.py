@@ -114,27 +114,28 @@ def dataview():
 	# open a file dialog to select the CSV file #
 	file_path = filedialog.askopenfilename(title="Select a CSV file", filetypes=[("CSV files", "*.csv")])
 
-    # main functionality #
-    if file_path:
-        df = read_csv(file_path)
-        if df is not None:
-            selected_columns = select_columns(df)
+	# main functionality #
+	if file_path:
+		df = read_csv(file_path)
+		
+		if df is not None:
+		selected_columns = select_columns(df)
 
-            with open(f"descriptivestatistics-{file_path.split('/')[-1]}.txt", 'w') as stats_file:
-                for column in selected_columns:
-                    if is_num(df[column]):
-                        visualyze_num(df, column)
-                        descrybe_num(df, column, stats_file)
-                    elif is_cat(df[column]):
-                        visualyze_cat(df, column)
-                        descrybe_cat(df, column, stats_file)
-                    else:
-                        print(f"{Colors.RED}[NOTICE] Column {column} is neither strictly numerical nor categorical. No visualizations or descriptives were generated.{Colors.RESET}")
-    else:
-        print(f"{Colors.RED}[ERROR] No CSV file selected.{Colors.RESET}")
+		with open(f"descriptivestatistics-{file_path.split('/')[-1]}.txt", 'w') as stats_file:
+			for column in selected_columns:
+				if is_num(df[column]):
+					visualyze_num(df, column)
+					descrybe_num(df, column, stats_file)
+				elif is_cat(df[column]):
+					visualyze_cat(df, column)
+					descrybe_cat(df, column, stats_file)
+				else:
+					print(f"{Colors.RED}[NOTICE] Column {column} is neither strictly numerical nor categorical. No visualizations or descriptives were generated.{Colors.RESET}")
+		else:
+			print(f"{Colors.RED}[ERROR] No CSV file selected.{Colors.RESET}")
 
 # make sure script runs properly
 if __name__ == "__main__":
-    dataview()
+	dataview()
 
 # --- test area --- #
