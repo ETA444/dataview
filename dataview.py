@@ -95,8 +95,13 @@ def descrybe_cat(df, column, file):
 	file.write("\n\n")
 
 # --- main function --- #
+def dataview():
+	
 
 
+# make sure script runs properly
+if __name__ == "__main__":
+    dataview()
 
 # --- test area --- #
 
