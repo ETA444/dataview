@@ -1,5 +1,5 @@
-# --- legend --- #
-# ui = user input
+# DataView 1.0 by George Dreemer (ETA444) #
+# Quick way to get basic visualizations and descriptive statistics from a .csv file
 
 # --- colors for output --- #
 class Colors:
@@ -12,8 +12,12 @@ class Colors:
     WHITE = '\033[97m'
     RESET = '\033[0m'
 
-# [check_libraries]: check if user has the necessary libraries #
+# --- initial imports --- #
 import sys
+import subprocess
+
+# --- helper functions --- #
+# [ check_libraries() ]: check if user has the necessary libraries #
 def check_libraries():
 	libraries = ["pandas", "matplotlib", "seaborn", "numpy", "tkinter"]
 	missing_libraries = []
@@ -26,16 +30,113 @@ def check_libraries():
 	
 	return missing_libraries
 
+# [ install_libraries() ]: install missing libraries #
+def install_libraries(libraries):
+	for lib in libraries:
+		subprocess.check_call([sys.executable, "-m", "pip", "install", lib])
+
+
+# [ read_csv() ]: opening a .csv file custom error handling #
+def read_csv(file_path):
+	try:
+		return pd.read_csv(file_path)
+	except Exception as e:
+		print(f"{Colors.RED}[ERROR] An error occured importing the .csv: {e}{Colors.RESET}")
+		return None
+
+# [ select_columns() ]: show available columns in .csv and ask #
+# 					  user which columns they will work with #
+def select_columns(df):
+	print(f"{Colors.BLUE}Available columns: ", df.columns.tolist())
+	ui_columns = input(f"{Colors.GREEN}Enter the column(s) you want to work with (use , to seperate): {Colors.RESET}")
+	selected_columns = [col.strip() for col in ui_columns(',')]
+	return selected_columns
+
+# [ is_num() ]: identifies numerical columns #
+def is_num(series):
+	return pd.api.types.is_numeric_dtype(series)
+
+# [ is_cat() ]: identifies categorical columns #
+def is_cat(series):
+	return pd.api.types.is_categorical_dtype(series) or series.dtype == object
+
+# [ visualyze_num() ]:  generates appropriate visuals  	#
+# 				 	  for numerical data 				#
+def visualyze_num (df, column):
+	# histogram #
+	plt.figure(figsize=(10,6))
+	sns.histplot(df[column], kde=True)
+	plt.title(f"Histogram of {column}")
+	hist_fname = f"{column}-histogram.png"
+	plt.savefig(hist_fname)
+	plt.close()
+	print(f"{Colors.BLUE} Saved histogram of \'{column}\' column as \'{hist_fname}\' in the current directory.{Colors.RESET}")
+
+	# boxplot #
+	plt.figure(figsize=(10,6))
+	sns.boxplot(y=df[column])
+	plt.title(f"Boxplot of {column}")
+	box_fname = f"{column}-boxplot.png"
+	plt.savefig(box_fname)
+	plt.close()
+	print(f"{Colors.BLUE} Saved boxplot of \'{column}\' column as \'{box_fname}\' in the current directory.{Colors.RESET}")
+
+
+# [ visualyze_cat() ]:  generates appropriate visuals 	#
+# 				 	  for felines 						#
+def visualyze_cat(df, column):
+	# bar countplot #
+	plt.figure(figsize=(10,6))
+	sns.countplot(y=df[column])
+	plt.title(f"Count Plot of {column}")
+	count_fname = f"{column}-countplot.png"
+	plt.savefig(count_fname)
+	plt.close()
+	print(f"{Colors.BLUE} Saved countplot of \'{column}\' column as \'{count_fname}\' in the current directory.{Colors.RESET}")
+
+# [ descrybe_num() ]: calculate descriptive statistics for #
+# 					numerical data 						 #
+def descrybe_num(df, column, file):
+	file.write(f"Statistics for {column}:\n")
+	file.write(df[column].describe().to_string())
+	file.write("\n\n")
+
+# [ descrybe_cat() ]: calculate descriptive statistics for #
+# 					categorical data 					 #
+def descrybe_cat(df, column, file):
+	file.write(f"Frequency Counts for {column}:\n")
+	file.write(df[column].value_counts().to_string())
+	file.write("\n\n")	
+
+
 # --- main function --- #
 def dataview():
+
 	# initial dialogue - library check #
-	print(f"{Colors.RED} Performing library check ...")
+	print(f"{Colors.YELLOW}[SETUP] Performing library check ...{Colors.RESET}")
 	missing_libraries = check_libraries()
+
+	# setup - handle missing libraries with consent#
 	if missing_libraries:
-		print("The following required libraries are missing:")
-		print(", ".join(missing_libraries))
-		print("Please install them before running this script.")
-		sys.exit(1)
+		print(f"{Colors.RED}[SETUP] The following libraries are missing:", ", ".join(missing_libraries), f"{Colors.RESET}")
+		
+		consent = input(f"{Colors.GREEN}[SETUP] Would you like to install them? (y/n): {Colors.RESET}")
+		
+		if consent.lower() == 'y':
+			install_libraries(missing_libraries)
+			print(f"{Colors.BLUE}[SETUP-COMPLETE] Libraries installed successfully, DataView is ready to initialize.{Colors.RESET}")
+		else:
+			print(f"{Colors.RED}[SETUP-ENDED] DataView relies on these libraries to run.")
+			print(f"[SETUP-ENDED] Exiting DataView.{Colors.RESET}")
+			sys.exit(1)
+
+	# --- final imports --- #
+	import pandas as pd
+	import matplotlib.pyplot as plt
+	import seaborn as sns
+	import numpy as np
+	import tkinter as tk
+	from tkinter import filedialog
 
 	# welcome dialogue #
 	print(f"{Colors.BLUE} Welcome to DataView! (version 1.0)")
@@ -51,6 +152,7 @@ def dataview():
 	root.withdraw()
 
 	# open a file dialog to select the CSV file #
+	print(f"{Colors.GREEN}You will now be prompted to choose your CSV file.")
 	file_path = filedialog.askopenfilename(title="Select a CSV file", filetypes=[("CSV files", "*.csv")])
 
 	# main functionality #
@@ -76,85 +178,3 @@ def dataview():
 # make sure script runs properly
 if __name__ == "__main__":
 	dataview()
-
-# --- required libraries --- #
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
-import tkinter as tk
-from tkinter import filedialog
-
-# --- accessory functions --- #
- 
-# [read_csv()]: opening a .csv file custom error handling #
-def read_csv(file_path):
-	try:
-		return pd.read_csv(file_path)
-	except Exception as e:
-		print(f"{Colors.RED}[ERROR] An error occured importing the .csv: {e}{Colors.RESET}")
-		return None
-
-# [select_columns()]: show available columns in .csv and ask #
-# 					  user which columns they will work with #
-def select_columns(df):
-	print(f"{Colors.BLUE}Available columns: ", df.columns.tolist())
-	ui_columns = input(f"{Colors.GREEN}Enter the column(s) you want to work with (use , to seperate): {Colors.RESET}")
-	selected_columns = [col.strip() for col in ui_columns(',')]
-	return selected_columns
-
-# [is_num()]: identifies numerical columns #
-def is_num(series):
-	return pd.api.types.is_numeric_dtype(series)
-
-# [is_cat()]: identifies categorical columns #
-def is_cat(series):
-	return pd.api.types.is_categorical_dtype(series) or series.dtype == object
-
-# [visualyze_num()]:  generates appropriate visuals  	#
-# 				 	  for numerical data 				#
-def visualyze_num (df, column):
-	# histogram #
-	plt.figure(figsize=(10,6))
-	sns.histplot(df[column], kde=True)
-	plt.title(f"Histogram of {column}")
-	hist_fname = f"{column}-histogram.png"
-	plt.savefig(hist_fname)
-	plt.close()
-	print(f"{Colors.BLUE} Saved histogram of \'{column}\' column as \'{hist_fname}\' in the current directory.{Colors.RESET}")
-
-	# boxplot #
-	plt.figure(figsize=(10,6))
-	sns.boxplot(y=df[column])
-	plt.title(f"Boxplot of {column}")
-	box_fname = f"{column}-boxplot.png"
-	plt.savefig(box_fname)
-	plt.close()
-	print(f"{Colors.BLUE} Saved boxplot of \'{column}\' column as \'{box_fname}\' in the current directory.{Colors.RESET}")
-
-
-# [visualyze_cat()]:  generates appropriate visuals 	#
-# 				 	  for felines 						#
-def visualyze_cat(df, column):
-	# bar countplot #
-	plt.figure(figsize=(10,6))
-	sns.countplot(y=df[column])
-	plt.title(f"Count Plot of {column}")
-	count_fname = f"{column}-countplot.png"
-	plt.savefig(count_fname)
-	plt.close()
-	print(f"{Colors.BLUE} Saved countplot of \'{column}\' column as \'{count_fname}\' in the current directory.{Colors.RESET}")
-
-# [descrybe_num()]: calculate descriptive statistics for #
-# 					numerical data 						 #
-def descrybe_num(df, column, file):
-	file.write(f"Statistics for {column}:\n")
-	file.write(df[column].describe().to_string())
-	file.write("\n\n")
-
-# [descrybe_cat()]: calculate descriptive statistics for #
-# 					categorical data 					 #
-def descrybe_cat(df, column, file):
-	file.write(f"Frequency Counts for {column}:\n")
-	file.write(df[column].value_counts().to_string())
-	file.write("\n\n")
