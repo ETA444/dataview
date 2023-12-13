@@ -37,7 +37,8 @@ def install_libraries(libraries):
 
 
 # [ read_csv() ]: opening a .csv file custom error handling #
-def read_csv(file_path):
+# args: file_path (file path to the csv); pd (as the pandas module is not globally imported it needs to be provided)
+def read_csv(file_path, pd):
 	try:
 		return pd.read_csv(file_path)
 	except Exception as e:
@@ -47,22 +48,22 @@ def read_csv(file_path):
 # [ select_columns() ]: show available columns in .csv and ask #
 # 					  user which columns they will work with #
 def select_columns(df):
-	print(f"{Colors.BLUE}Available columns: ", df.columns.tolist())
+	print(f"{Colors.BLUE}Available columns: ", df.columns.tolist(), f"{Colors.RESET}")
 	ui_columns = input(f"{Colors.GREEN}Enter the column(s) you want to work with (use , to seperate): {Colors.RESET}")
-	selected_columns = [col.strip() for col in ui_columns(',')]
+	selected_columns = [col.strip() for col in ui_columns.split(',')]
 	return selected_columns
 
 # [ is_num() ]: identifies numerical columns #
-def is_num(series):
+def is_num(series, pd):
 	return pd.api.types.is_numeric_dtype(series)
 
 # [ is_cat() ]: identifies categorical columns #
-def is_cat(series):
+def is_cat(series, pd):
 	return pd.api.types.is_categorical_dtype(series) or series.dtype == object
 
 # [ visualyze_num() ]:  generates appropriate visuals  	#
 # 				 	  for numerical data 				#
-def visualyze_num (df, column):
+def visualyze_num (df, column, plt, sns):
 	# histogram #
 	plt.figure(figsize=(10,6))
 	sns.histplot(df[column], kde=True)
@@ -84,7 +85,7 @@ def visualyze_num (df, column):
 
 # [ visualyze_cat() ]:  generates appropriate visuals 	#
 # 				 	  for felines 						#
-def visualyze_cat(df, column):
+def visualyze_cat(df, column, plt, sns):
 	# bar countplot #
 	plt.figure(figsize=(10,6))
 	sns.countplot(y=df[column])
@@ -152,23 +153,23 @@ def dataview():
 	root.withdraw()
 
 	# open a file dialog to select the CSV file #
-	print(f"{Colors.GREEN}You will now be prompted to choose your CSV file.")
+	print(f"{Colors.GREEN}You will now be prompted to choose your CSV file.{Colors.RESET}")
 	file_path = filedialog.askopenfilename(title="Select a CSV file", filetypes=[("CSV files", "*.csv")])
 
 	# main functionality #
 	if file_path:
-		df = read_csv(file_path)
-		
+		df = read_csv(file_path, pd)
+		print(f"{file_path}")
 		if df is not None:
 			selected_columns = select_columns(df)
 
 		with open(f"descriptivestatistics-{file_path.split('/')[-1]}.txt", 'w') as stats_file:
 			for column in selected_columns:
-				if is_num(df[column]):
-					visualyze_num(df, column)
+				if is_num(df[column], pd):
+					visualyze_num(df, column, plt, sns)
 					descrybe_num(df, column, stats_file)
-				elif is_cat(df[column]):
-					visualyze_cat(df, column)
+				elif is_cat(df[column], pd):
+					visualyze_cat(df, column, plt, sns)
 					descrybe_cat(df, column, stats_file)
 				else:
 					print(f"{Colors.RED}[NOTICE] Column {column} is neither strictly numerical nor categorical. No visualizations or descriptives were generated.{Colors.RESET}")
