@@ -13,6 +13,7 @@ class Colors:
     RESET = '\033[0m'
 
 # --- initial imports --- #
+import os
 import sys
 import subprocess
 
@@ -48,52 +49,82 @@ def read_csv(file_path, pd):
 # [ select_columns() ]: show available columns in .csv and ask #
 # 					  user which columns they will work with #
 def select_columns(df):
-	print(f"{Colors.BLUE}Available columns: ", df.columns.tolist(), f"{Colors.RESET}")
+	print(f"{Colors.GREEN}Available columns: ", df.columns.tolist(), f"{Colors.RESET}")
 	ui_columns = input(f"{Colors.GREEN}Enter the column(s) you want to work with (use , to seperate): {Colors.RESET}")
-	selected_columns = [col.strip() for col in ui_columns.split(',')]
-	return selected_columns
+
+	# handle no columns selected
+	if not ui_columns:
+		print(f"{Color.RED}[NOTICE] No columns selected. Exiting.")
+		sys.exit(1)
+	else:
+		selected_columns = [col.strip() for col in ui_columns.split(',')]
+		return selected_columns
 
 # [ is_num() ]: identifies numerical columns #
 def is_num(series, pd):
-	return pd.api.types.is_numeric_dtype(series)
+	if pd.api.types.is_numeric_dtype(series):
+		# account for years
+		if 'year' in series.name.lower():
+			return False
+		else:
+			return True
+			
 
 # [ is_cat() ]: identifies categorical columns #
 def is_cat(series, pd):
-	return pd.api.types.is_categorical_dtype(series) or series.dtype == object
+	return isinstance(series.dtype, pd.CategoricalDtype) or series.dtype == object
 
 # [ visualyze_num() ]:  generates appropriate visuals  	#
 # 				 	  for numerical data 				#
-def visualyze_num (df, column, plt, sns):
-	# histogram #
+def visualyze_num (df, column, save_path, plt, sns):
+	# - histogram - #
+	# generate histogram
 	plt.figure(figsize=(10,6))
 	sns.histplot(df[column], kde=True)
 	plt.title(f"Histogram of {column}")
-	hist_fname = f"{column}-histogram.png"
-	plt.savefig(hist_fname)
-	plt.close()
-	print(f"{Colors.BLUE} Saved histogram of \'{column}\' column as \'{hist_fname}\' in the current directory.{Colors.RESET}")
 
-	# boxplot #
+	# save histogram
+	hist_fname = f"{column}-histogram.png"
+	output_histogram = os.path.join(save_path, hist_fname)
+	plt.savefig(output_histogram)
+	plt.close()
+
+	# inform user
+	print(f"{Colors.BLUE}[SUCCESS] Saved histogram of \'{column}\' column as \'{hist_fname}\' in: {save_path}{Colors.RESET}")
+
+	# - boxplot - #
+	# generate boxplot
 	plt.figure(figsize=(10,6))
 	sns.boxplot(y=df[column])
 	plt.title(f"Boxplot of {column}")
+
+	# save boxplot
 	box_fname = f"{column}-boxplot.png"
-	plt.savefig(box_fname)
+	output_boxplot = os.path.join(save_path, box_fname)
+	plt.savefig(output_boxplot)
 	plt.close()
-	print(f"{Colors.BLUE} Saved boxplot of \'{column}\' column as \'{box_fname}\' in the current directory.{Colors.RESET}")
+
+	# inform user
+	print(f"{Colors.BLUE}[SUCCESS] Saved boxplot of \'{column}\' column as \'{box_fname}\' in: {save_path}{Colors.RESET}")
 
 
 # [ visualyze_cat() ]:  generates appropriate visuals 	#
 # 				 	  for felines 						#
-def visualyze_cat(df, column, plt, sns):
-	# bar countplot #
+def visualyze_cat(df, column, save_path, plt, sns):
+	# - bar countplot - #
+	# generate countplot
 	plt.figure(figsize=(10,6))
 	sns.countplot(y=df[column])
 	plt.title(f"Count Plot of {column}")
+
+	# save countplot
 	count_fname = f"{column}-countplot.png"
-	plt.savefig(count_fname)
+	output_countplot = os.path.join(save_path, count_fname)
+	plt.savefig(output_countplot)
 	plt.close()
-	print(f"{Colors.BLUE} Saved countplot of \'{column}\' column as \'{count_fname}\' in the current directory.{Colors.RESET}")
+
+	# inform user
+	print(f"{Colors.BLUE}[SUCCESS] Saved countplot of \'{column}\' column as \'{count_fname}\' in: {save_path}{Colors.RESET}")
 
 # [ descrybe_num() ]: calculate descriptive statistics for #
 # 					numerical data 						 #
@@ -153,28 +184,46 @@ def dataview():
 	root.withdraw()
 
 	# open a file dialog to select the CSV file #
-	print(f"{Colors.GREEN}You will now be prompted to choose your CSV file.{Colors.RESET}")
+	print(f"{Colors.GREEN}[CSV FILE] You will now be prompted to choose your CSV file.{Colors.RESET}")
 	file_path = filedialog.askopenfilename(title="Select a CSV file", filetypes=[("CSV files", "*.csv")])
 
 	# main functionality #
 	if file_path:
+		
+		# open a dialog to select the save path of the output #
+		print(f"{Colors.CYAN}[SAVE PATH] You will now be prompted to choose your save path for the visualizations and descriptive statistics.{Colors.RESET}")
+		save_path = filedialog.askdirectory(title="Select a directory to save visualizations and descriptive statistics")
+    	
+		if not save_path:
+			print(f"{Colors.RED}[NOTICE] No save directory selected. Exiting.{Colors.RESET}")
+			sys.exit(1)
+		else:
+			print(f"{Colors.BLUE}[SUCCESS] Great! Everything will be saved in: {save_path}{Colors.RESET}")
+
+		# define df from .csv file 
 		df = read_csv(file_path, pd)
-		print(f"{file_path}")
+
 		if df is not None:
 			selected_columns = select_columns(df)
 
-		with open(f"descriptivestatistics-{file_path.split('/')[-1]}.txt", 'w') as stats_file:
+		# define save path for descriptives
+		# note: for the visuals it is done inside the helper functions
+		csv_name_without_extension = (file_path.split('/')[-1]).split('.')[0]
+		descriptive_stats_file = os.path.join(save_path, f"descriptivestatistics-{csv_name_without_extension}.txt")
+
+		with open(descriptive_stats_file, 'w') as stats_file:
 			for column in selected_columns:
 				if is_num(df[column], pd):
-					visualyze_num(df, column, plt, sns)
+					visualyze_num(df, column, save_path, plt, sns)
 					descrybe_num(df, column, stats_file)
 				elif is_cat(df[column], pd):
-					visualyze_cat(df, column, plt, sns)
+					visualyze_cat(df, column, save_path, plt, sns)
 					descrybe_cat(df, column, stats_file)
 				else:
 					print(f"{Colors.RED}[NOTICE] Column {column} is neither strictly numerical nor categorical. No visualizations or descriptives were generated.{Colors.RESET}")
 	else:
-		print(f"{Colors.RED}[ERROR] No CSV file selected.{Colors.RESET}")
+		print(f"{Colors.RED}[ERROR] No CSV file selected. Exiting.{Colors.RESET}")
+		sys.exit(1)
 
 # make sure script runs properly
 if __name__ == "__main__":

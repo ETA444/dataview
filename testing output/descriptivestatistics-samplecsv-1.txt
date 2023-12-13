@@ -1,0 +1,256 @@
+Frequency Counts for Country:
+Country
+Congo                                                  847
+Korea                                                  810
+Lebanon                                                477
+Iraq                                                   470
+Turkey                                                 469
+Austria                                                455
+Seychelles                                             454
+Mauritius                                              453
+Singapore                                              452
+Costa Rica                                             450
+Israel                                                 450
+Oman                                                   448
+Vanuatu                                                446
+Antarctica (the territory South of 60 deg S)           445
+Bolivia                                                445
+Tunisia                                                445
+Ireland                                                443
+China                                                  443
+Namibia                                                443
+New Zealand                                            442
+Indonesia                                              442
+Bermuda                                                442
+Cyprus                                                 441
+Bahamas                                                439
+Cuba                                                   439
+Libyan Arab Jamahiriya                                 438
+Cameroon                                               438
+Switzerland                                            438
+Liechtenstein                                          437
+Reunion                                                437
+Botswana                                               436
+Northern Mariana Islands                               436
+Azerbaijan                                             434
+Tanzania                                               434
+Hong Kong                                              433
+Guatemala                                              432
+Germany                                                432
+Falkland Islands (Malvinas)                            431
+British Virgin Islands                                 431
+Iceland                                                431
+Taiwan                                                 430
+Uganda                                                 430
+Saint Kitts and Nevis                                  429
+Japan                                                  429
+Guinea-Bissau                                          428
+Western Sahara                                         428
+Iran                                                   427
+Madagascar                                             427
+Ecuador                                                427
+United Kingdom                                         426
+Zimbabwe                                               426
+Slovakia (Slovak Republic)                             426
+Malawi                                                 426
+Burkina Faso                                           425
+Sudan                                                  424
+Guernsey                                               424
+Tokelau                                                424
+Gambia                                                 423
+Cote d'Ivoire                                          422
+Holy See (Vatican City State)                          421
+Egypt                                                  420
+Somalia                                                420
+Solomon Islands                                        420
+Niue                                                   420
+Honduras                                               419
+Bouvet Island (Bouvetoya)                              419
+Montenegro                                             419
+Micronesia                                             418
+Ethiopia                                               418
+Bhutan                                                 418
+Portugal                                               418
+Jersey                                                 418
+Algeria                                                418
+Kuwait                                                 417
+Belize                                                 417
+Andorra                                                417
+Turkmenistan                                           417
+Thailand                                               417
+Albania                                                417
+Croatia                                                416
+Saint Martin                                           416
+Romania                                                416
+Tajikistan                                             416
+Hungary                                                416
+El Salvador                                            416
+Cayman Islands                                         416
+Nauru                                                  416
+Antigua and Barbuda                                    415
+Gibraltar                                              415
+Senegal                                                415
+Bangladesh                                             415
+South Georgia and the South Sandwich Islands           414
+Tonga                                                  414
+Bahrain                                                414
+Netherlands Antilles                                   414
+Finland                                                414
+Colombia                                               414
+Poland                                                 414
+Saint Lucia                                            413
+Nepal                                                  413
+Angola                                                 413
+Ghana                                                  412
+Heard Island and McDonald Islands                      412
+Slovenia                                               412
+Papua New Guinea                                       412
+Luxembourg                                             412
+Macao                                                  411
+French Guiana                                          411
+Sweden                                                 411
+Chile                                                  411
+Aruba                                                  410
+Turks and Caicos Islands                               410
+Saint Pierre and Miquelon                              410
+Canada                                                 410
+Brazil                                                 410
+Lesotho                                                409
+Moldova                                                409
+Yemen                                                  409
+Vietnam                                                409
+Guyana                                                 409
+Nigeria                                                409
+Mongolia                                               408
+Togo                                                   408
+Macedonia                                              408
+Belarus                                                408
+France                                                 408
+Myanmar                                                407
+Trinidad and Tobago                                    407
+Mexico                                                 407
+Sierra Leone                                           407
+Kiribati                                               406
+Djibouti                                               406
+San Marino                                             406
+Barbados                                               406
+Italy                                                  405
+Benin                                                  405
+French Polynesia                                       404
+Suriname                                               404
+Liberia                                                404
+Saint Helena                                           403
+Central African Republic                               403
+India                                                  403
+Christmas Island                                       403
+Montserrat                                             403
+Argentina                                              402
+Nicaragua                                              401
+Lao People's Democratic Republic                       401
+Australia                                              401
+Afghanistan                                            401
+Svalbard & Jan Mayen Islands                           401
+Russian Federation                                     401
+Comoros                                                400
+Norfolk Island                                         400
+Mauritania                                             399
+Burundi                                                399
+Peru                                                   398
+Malta                                                  398
+Kenya                                                  398
+Sri Lanka                                              398
+Guadeloupe                                             398
+Georgia                                                397
+Mali                                                   397
+Eritrea                                                397
+Czech Republic                                         397
+Belgium                                                397
+Pakistan                                               397
+Ukraine                                                396
+Mayotte                                                396
+Dominican Republic                                     396
+Bosnia and Herzegovina                                 396
+Zambia                                                 396
+United States Virgin Islands                           395
+United States Minor Outlying Islands                   395
+Jamaica                                                395
+Swaziland                                              394
+Denmark                                                394
+Lithuania                                              393
+Faroe Islands                                          393
+Uruguay                                                393
+Puerto Rico                                            393
+Samoa                                                  393
+Greenland                                              393
+Cape Verde                                             392
+Niger                                                  392
+Equatorial Guinea                                      392
+Guam                                                   391
+Estonia                                                391
+Mozambique                                             390
+Kazakhstan                                             390
+Palau                                                  390
+Saint Barthelemy                                       390
+American Samoa                                         389
+Morocco                                                389
+New Caledonia                                          389
+Armenia                                                389
+Netherlands                                            389
+Chad                                                   388
+Wallis and Futuna                                      388
+Rwanda                                                 388
+Uzbekistan                                             388
+Dominica                                               388
+Philippines                                            387
+Cocos (Keeling) Islands                                387
+Latvia                                                 387
+Palestinian Territory                                  387
+Pitcairn Islands                                       386
+United States of America                               386
+Syrian Arab Republic                                   386
+Guinea                                                 386
+Fiji                                                   386
+Haiti                                                  386
+Malaysia                                               385
+Isle of Man                                            385
+Saudi Arabia                                           385
+Maldives                                               385
+Spain                                                  384
+Brunei Darussalam                                      384
+Kyrgyz Republic                                        384
+Jordan                                                 383
+Grenada                                                383
+Anguilla                                               382
+British Indian Ocean Territory (Chagos Archipelago)    381
+Tuvalu                                                 381
+Timor-Leste                                            381
+Saint Vincent and the Grenadines                       381
+Martinique                                             380
+Panama                                                 379
+Monaco                                                 378
+Greece                                                 376
+South Africa                                           376
+Cook Islands                                           373
+Marshall Islands                                       373
+Serbia                                                 372
+Sao Tome and Principe                                  370
+Venezuela                                              370
+Norway                                                 368
+Cambodia                                               367
+Bulgaria                                               367
+Qatar                                                  366
+French Southern Territories                            366
+Paraguay                                               356
+United Arab Emirates                                   353
+Gabon                                                  351
+
+Statistics for Number of employees:
+count    100000.000000
+mean       5003.959280
+std        2889.465063
+min           1.000000
+25%        2508.000000
+50%        4998.000000
+75%        7503.000000
+max        9999.000000
+
