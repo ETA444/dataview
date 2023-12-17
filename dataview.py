@@ -18,6 +18,7 @@ import sys
 import subprocess
 
 # --- helper functions --- #
+
 # [ check_libraries() ]: check if user has the necessary libraries #
 def check_libraries():
 	libraries = ["pandas", "matplotlib", "seaborn", "numpy", "tkinter", "wordcloud"]
@@ -36,6 +37,28 @@ def install_libraries(libraries):
 	for lib in libraries:
 		subprocess.check_call([sys.executable, "-m", "pip", "install", lib])
 
+# [open_dir]: opens folder where output was saved #
+#             taking OS into account              #
+def open_dir(save_path):
+    if sys.platform == 'win32':  # Windows
+        os.startfile(save_path)
+    elif sys.platform == 'darwin':  # macOS
+        subprocess.run(['open', save_path])
+    else:  # Linux and Unix-like systems
+        subprocess.run(['xdg-open', save_path])
+
+
+
+# [ dataview_logo() ]: print DataView ASCII logo #
+def dataview_logo():
+    logo = """
+  ___           _           __   __  _                
+ |   \   __ _  | |_   __ _  \ \ / / (_)  ___  __ __ __
+ | |) | / _` | |  _| / _` |  \ V /  | | / -_) \ V  V /
+ |___/  \__,_|  \__| \__,_|   \_/   |_| \___|  \_/\_/ 
+ 						   1.0
+    """
+    print(logo)
 
 # [ read_csv() ]: opening a .csv file custom error handling #
 # args: file_path (file path to the csv); pd (as the pandas module is not globally imported it needs to be provided)
@@ -54,7 +77,7 @@ def select_columns(df):
 
 	# handle no columns selected
 	if not ui_columns:
-		print(f"{Colors.RED}[NOTICE] No columns selected. Exiting.")
+		print(f"{Colors.RED}[NOTICE] No columns selected. Exiting.{Colors.RESET}")
 		sys.exit(1)
 	else:
 		selected_columns = [col.strip() for col in ui_columns.split(',')]
@@ -364,6 +387,9 @@ def dataview():
 
 
 	# welcome dialogue #
+	print(f"{Colors.WHITE}-----------------------------------------------------------------------------{Colors.RESET}")
+	dataview_logo()
+	print(f"{Colors.WHITE}-----------------------------------------------------------------------------{Colors.RESET}")
 	print(f"{Colors.WHITE} Welcome to DataView! (version 1.0){Colors.RESET}")
 	#print(f"Functionality: ")
 	print(f"{Colors.BLUE}[DATA-quality] DataView only works with clean data in CSV format.")
@@ -372,7 +398,7 @@ def dataview():
 	print(f"{Colors.GREEN}[PLOTS-Numerical] For numerical data, DataView generates: histograms, box plots, violin plots, KDE plots, line plots and CDF plots.")
 	print(f"{Colors.GREEN}[PLOTS-Categorical] For categorical data, DataView generates: count plots, pie charts, donut charts, bar plots and word clouds.{Colors.RESET}")
 	print(f"{Colors.MAGENTA}[CUSTOMIZATION-Style & Color] You can choose the style and color of the plots.{Colors.RESET}")
-	print(f"{Colors.WHITE}-------------------------------------------------------------{Colors.RESET}")
+	print(f"{Colors.WHITE}-----------------------------------------------------------------------------{Colors.RESET}")
 	
 	# set up a root window for tk but don't display it #
 	root = tk.Tk()
@@ -381,7 +407,7 @@ def dataview():
 	# open a file dialog to select the CSV file #
 	print(f"{Colors.BLUE}[CSV FILE] You will now be prompted to choose your CSV file.{Colors.RESET}")
 	file_path = filedialog.askopenfilename(title="Select a CSV file", filetypes=[("CSV files", "*.csv")])
-	print(f"{Colors.WHITE}-------------------------------------------------------------{Colors.RESET}")
+	print(f"{Colors.WHITE}-----------------------------------------------------------------------------{Colors.RESET}")
 	# main functionality #
 	if file_path:
 		
@@ -390,20 +416,23 @@ def dataview():
 		save_path = filedialog.askdirectory(title="Select a directory to save visualizations and descriptive statistics")
     	
 		if not save_path:
+			print(f"{Colors.WHITE}-----------------------------------------------------------------------------{Colors.RESET}")
 			print(f"{Colors.RED}[NOTICE] No save directory selected. Exiting.{Colors.RESET}")
 			sys.exit(1)
 		else:
 			print(f"{Colors.BLUE}[SUCCESS] Great! Everything will be saved in: {save_path}{Colors.RESET}")
-
+			print(f"{Colors.WHITE}-----------------------------------------------------------------------------{Colors.RESET}")
 		# define df from .csv file 
 		df = read_csv(file_path, pd)
 
 		if df is not None:
 			selected_columns = select_columns(df)
-
 			# color and style dialog
 			style = input(f"{Colors.MAGENTA}[CUSTOMIZATION-STYLE] What style would you like the plots to have? \n (darkgrid / whitegrid / dark / white / ticks / ...): {Colors.RESET}")
+			print(f"{Colors.WHITE}-----------------------------------------------------------------------------{Colors.RESET}")
 			color = input(f"{Colors.MAGENTA}[CUSTOMIZATION-COLOR] What color would you like the main color of the plots to be? \n (skyblue / salmon / lightgreen / sandybrown / orchid / steelblue / ...): {Colors.RESET}")
+			print(f"{Colors.WHITE}-----------------------------------------------------------------------------{Colors.RESET}")
+		
 		# define save path for descriptives
 		# note: for the visuals it is done inside the helper functions
 		csv_name_without_extension = (file_path.split('/')[-1]).split('.')[0]
@@ -419,6 +448,9 @@ def dataview():
 					descrybe_cat(df, column, stats_file)
 				else:
 					print(f"{Colors.RED}[NOTICE] Column {column} is neither strictly numerical nor categorical. No visualizations or descriptives were generated.{Colors.RESET}")
+		print(f"{Colors.WHITE}-----------------------------------------------------------------------------{Colors.RESET}")
+		print(f"{Colors.BLUE}[SUCCESS] Plots and Descriptive Statistics have been generated! Opening the folder ...{Colors.RESET}")
+		open_dir(save_path)
 	else:
 		print(f"{Colors.RED}[ERROR] No CSV file selected. Exiting.{Colors.RESET}")
 		sys.exit(1)
