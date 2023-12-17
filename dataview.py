@@ -54,7 +54,7 @@ def select_columns(df):
 
 	# handle no columns selected
 	if not ui_columns:
-		print(f"{Color.RED}[NOTICE] No columns selected. Exiting.")
+		print(f"{Colors.RED}[NOTICE] No columns selected. Exiting.")
 		sys.exit(1)
 	else:
 		selected_columns = [col.strip() for col in ui_columns.split(',')]
@@ -364,23 +364,24 @@ def dataview():
 
 
 	# welcome dialogue #
-	print(f"{Colors.BLUE} Welcome to DataView! (version 1.0)")
-	print(f"Functionality: ")
-	print(f"[DATA-quality] DataView only works with clean data in CSV format.")
+	print(f"{Colors.WHITE} Welcome to DataView! (version 1.0){Colors.RESET}")
+	#print(f"Functionality: ")
+	print(f"{Colors.BLUE}[DATA-quality] DataView only works with clean data in CSV format.")
 	print(f"[DATA-types] DataView distinguishes between numerical and categorical data and generates the appropriate plots and descriptive statistics.{Colors.RESET}")
-	print(f"{Colors.CYAN}[OUTPUT] DataView saves the plots to a folder chosen by you.{Color.RESET}")
+	print(f"{Colors.CYAN}[OUTPUT] DataView saves the plots to a folder chosen by you.{Colors.RESET}")
 	print(f"{Colors.GREEN}[PLOTS-Numerical] For numerical data, DataView generates: histograms, box plots, violin plots, KDE plots, line plots and CDF plots.")
-	print(f"{Colors.GREEN}[PLOTS-Categorical] For categorical data, DataView generates: count plots, pie charts, donut charts, bar plots and word clouds.{Color.RESET}")
+	print(f"{Colors.GREEN}[PLOTS-Categorical] For categorical data, DataView generates: count plots, pie charts, donut charts, bar plots and word clouds.{Colors.RESET}")
 	print(f"{Colors.MAGENTA}[CUSTOMIZATION-Style & Color] You can choose the style and color of the plots.{Colors.RESET}")
-
+	print(f"{Colors.WHITE}-------------------------------------------------------------{Colors.RESET}")
+	
 	# set up a root window for tk but don't display it #
 	root = tk.Tk()
 	root.withdraw()
 
 	# open a file dialog to select the CSV file #
-	print(f"{Colors.GREEN}[CSV FILE] You will now be prompted to choose your CSV file.{Colors.RESET}")
+	print(f"{Colors.BLUE}[CSV FILE] You will now be prompted to choose your CSV file.{Colors.RESET}")
 	file_path = filedialog.askopenfilename(title="Select a CSV file", filetypes=[("CSV files", "*.csv")])
-
+	print(f"{Colors.WHITE}-------------------------------------------------------------{Colors.RESET}")
 	# main functionality #
 	if file_path:
 		
