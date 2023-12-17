@@ -20,7 +20,7 @@ import subprocess
 # --- helper functions --- #
 # [ check_libraries() ]: check if user has the necessary libraries #
 def check_libraries():
-	libraries = ["pandas", "matplotlib", "seaborn", "numpy", "tkinter"]
+	libraries = ["pandas", "matplotlib", "seaborn", "numpy", "tkinter", "wordcloud"]
 	missing_libraries = []
 
 	for lib in libraries:
@@ -209,7 +209,26 @@ def visualyze_cat(df, column, save_path, plt, sns, style, color):
 
 
 	# - word cloud - #
-	
+	from wordcloud import WordCloud # local import
+
+	## generate word cloud
+	wordcloud = WordCloud(width=800, height=400, background_color ='white').generate(' '.join(df[column]))
+	plt.figure(figsize=(10, 5))
+	plt.imshow(wordcloud, interpolation='bilinear')
+	plt.axis('off')
+	plt.title(f"Word Cloud of {column}")
+
+	## save word cloud
+	cloud_fname = f"{column}-wordcloud.png"
+	plt.savefig(os.path.join(save_path, cloud_fname))
+	plt.close()
+
+	## inform user
+	print(f"{Colors.BLUE}[SUCCESS] Saved word cloud of \'{column}\' column as \'{cloud_fname}\' in: {save_path}{Colors.RESET}")
+
+
+
+
 
 
 # [ descrybe_num() ]: calculate descriptive statistics for #
@@ -255,6 +274,7 @@ def dataview():
 	import numpy as np
 	import tkinter as tk
 	from tkinter import filedialog
+
 
 	# welcome dialogue #
 	print(f"{Colors.BLUE} Welcome to DataView! (version 1.0)")
