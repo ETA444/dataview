@@ -81,7 +81,7 @@ def visualyze_num (df, column, save_path, plt, sns, style, color):
 	# generate histogram
 	plt.figure(figsize=(10,6))
 	sns.set_style(style) # dynamic style
-	sns.histplot(df[column], kde=True, color=color) # dynamic color
+	sns.histplot(df[column], kde=True, palette = 'Set3')
 	plt.title(f"Histogram of {column}")
 
 	# DataView branding
@@ -90,7 +90,7 @@ def visualyze_num (df, column, save_path, plt, sns, style, color):
 					transform=plt.gca().transAxes)
 
 	# save histogram
-	hist_fname = f"{column}-histogram.png"
+	hist_fname = f"{column}-histogram-{style}.png"
 	output_histogram = os.path.join(save_path, hist_fname) # dynamic save path
 	plt.savefig(output_histogram)
 	plt.close()
@@ -111,7 +111,7 @@ def visualyze_num (df, column, save_path, plt, sns, style, color):
 					transform=plt.gca().transAxes)
 
 	# save boxplot
-	box_fname = f"{column}-boxplot.png"
+	box_fname = f"{column}-boxplot-{style}-{color}.png"
 	output_boxplot = os.path.join(save_path, box_fname) # dynamic save path
 	plt.savefig(output_boxplot)
 	plt.close()
@@ -123,26 +123,94 @@ def visualyze_num (df, column, save_path, plt, sns, style, color):
 # [ visualyze_cat() ]:  generates appropriate visuals 	#
 # 				 	  for felines 						#
 def visualyze_cat(df, column, save_path, plt, sns, style, color):
-	# - bar countplot - #
-	# generate countplot
+	
+	# - vertical countplot - #
+	## generate countplot
 	plt.figure(figsize=(10,6))
 	sns.set_style(style) # dynamic style
 	sns.countplot(y=df[column], color=color) # dynamic color
 	plt.title(f"Count Plot of {column}")
 
-	# DataView branding
+	## DataView branding
 	plt.text(x=0.5, y=-0.05, s="Made with DataView (github.com/ETA444)", 
 				fontsize=10, ha='center', va='bottom', color='grey', 
 					transform=plt.gca().transAxes)
 
-	# save countplot
-	count_fname = f"{column}-countplot.png"
+	## save countplot
+	count_fname = f"{column}-countplot-{style}-{color}.png"
 	output_countplot = os.path.join(save_path, count_fname) # dynamic save path
 	plt.savefig(output_countplot)
 	plt.close()
 
-	# inform user
+	## inform user
 	print(f"{Colors.BLUE}[SUCCESS] Saved countplot of \'{column}\' column as \'{count_fname}\' in: {save_path}{Colors.RESET}")
+
+
+	# - pie chart - #
+	## generate pie chart (note: color and style limited)
+	plt.figure(figsize=(8, 8))
+	df[column].value_counts().plot.pie(autopct='%1.1f%%', startangle=90)
+	plt.title(f"Pie Chart of {column}")
+	plt.ylabel('')  # y label not needed in pie plot
+
+	## DataView branding
+	plt.text(x=0.5, y=-0.05, s="Made with DataView (github.com/ETA444)", 
+				fontsize=10, ha='center', va='bottom', color='grey', 
+					transform=plt.gca().transAxes)
+
+	## save pie chart
+	pie_fname = f"{column}-piechart-{style}-{color}.png"
+	plt.savefig(os.path.join(save_path, pie_fname))
+	plt.close()
+
+	## inform user
+	print(f"{Colors.BLUE}[SUCCESS] Saved countplot of \'{column}\' column as \'{pie_fname}\' in: {save_path}{Colors.RESET}")
+
+
+	# - donut chart - #
+	plt.figure(figsize=(8, 8))
+	plt.pie(df[column].value_counts(), labels=df[column].value_counts().index, autopct='%1.1f%%', startangle=90)
+	plt.gca().add_artist(plt.Circle((0,0),0.70,fc='white'))
+	plt.title(f"Donut Chart of {column}")
+
+	## DataView branding
+	plt.text(x=0.5, y=-0.05, s="Made with DataView (github.com/ETA444)", 
+				fontsize=10, ha='center', va='bottom', color='grey', 
+					transform=plt.gca().transAxes)
+
+	## save donut chart
+	donut_fname = f"{column}-donutchart-{style}-{color}.png"
+	plt.savefig(os.path.join(save_path, donut_fname))
+	plt.close()
+
+	## inform user
+	print(f"{Colors.BLUE}[SUCCESS] Saved donut chart of \'{column}\' column as \'{donut_fname}\' in: {save_path}{Colors.RESET}")
+
+
+	# - horizontal bar chart - #
+	plt.figure(figsize=(10, 6))
+	sns.set_style(style) # dynamic style
+	sns.barplot(x=df[column].value_counts(), y=df[column].value_counts().index, color=color) # dynamic color
+	plt.title(f"Bar Chart of {column}")
+	plt.xlabel('Count')
+
+	## DataView branding
+	plt.text(x=0.5, y=-0.05, s="Made with DataView (github.com/ETA444)", 
+				fontsize=10, ha='center', va='bottom', color='grey', 
+					transform=plt.gca().transAxes)
+
+	## save bar chart
+	bar_fname = f"{column}-barchart-{style}-{color}.png"
+	plt.savefig(os.path.join(save_path, bar_fname))
+	plt.close()
+
+	## inform user
+	print(f"{Colors.BLUE}[SUCCESS] Saved bar chart of \'{column}\' column as \'{bar_fname}\' in: {save_path}{Colors.RESET}")
+
+
+	# - word cloud - #
+	
+
 
 # [ descrybe_num() ]: calculate descriptive statistics for #
 # 					numerical data 						 #
