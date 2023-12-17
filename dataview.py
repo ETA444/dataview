@@ -68,7 +68,7 @@ def is_num(series, pd):
 			return False
 		else:
 			return True
-			
+
 
 # [ is_cat() ]: identifies categorical columns #
 def is_cat(series, pd):
@@ -76,16 +76,17 @@ def is_cat(series, pd):
 
 # [ visualyze_num() ]:  generates appropriate visuals  	#
 # 				 	  for numerical data 				#
-def visualyze_num (df, column, save_path, plt, sns):
+def visualyze_num (df, column, save_path, plt, sns, style, color):
 	# - histogram - #
 	# generate histogram
 	plt.figure(figsize=(10,6))
-	sns.histplot(df[column], kde=True)
+	sns.set_style(style) # dynamic style
+	sns.histplot(df[column], kde=True, color=color) # dynamic color
 	plt.title(f"Histogram of {column}")
 
 	# save histogram
 	hist_fname = f"{column}-histogram.png"
-	output_histogram = os.path.join(save_path, hist_fname)
+	output_histogram = os.path.join(save_path, hist_fname) # dynamic save path
 	plt.savefig(output_histogram)
 	plt.close()
 
@@ -95,12 +96,13 @@ def visualyze_num (df, column, save_path, plt, sns):
 	# - boxplot - #
 	# generate boxplot
 	plt.figure(figsize=(10,6))
-	sns.boxplot(y=df[column])
+	sns.set_style(style) # dynamic style
+	sns.boxplot(y=df[column], color=color) # dynamic color
 	plt.title(f"Boxplot of {column}")
 
 	# save boxplot
 	box_fname = f"{column}-boxplot.png"
-	output_boxplot = os.path.join(save_path, box_fname)
+	output_boxplot = os.path.join(save_path, box_fname) # dynamic save path
 	plt.savefig(output_boxplot)
 	plt.close()
 
@@ -110,16 +112,17 @@ def visualyze_num (df, column, save_path, plt, sns):
 
 # [ visualyze_cat() ]:  generates appropriate visuals 	#
 # 				 	  for felines 						#
-def visualyze_cat(df, column, save_path, plt, sns):
+def visualyze_cat(df, column, save_path, plt, sns, style, color):
 	# - bar countplot - #
 	# generate countplot
 	plt.figure(figsize=(10,6))
-	sns.countplot(y=df[column])
+	sns.set_style(style) # dynamic style
+	sns.countplot(y=df[column], color=color) # dynamic color
 	plt.title(f"Count Plot of {column}")
 
 	# save countplot
 	count_fname = f"{column}-countplot.png"
-	output_countplot = os.path.join(save_path, count_fname)
+	output_countplot = os.path.join(save_path, count_fname) # dynamic save path
 	plt.savefig(output_countplot)
 	plt.close()
 
