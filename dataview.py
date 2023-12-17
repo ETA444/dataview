@@ -77,58 +77,146 @@ def is_cat(series, pd):
 # [ visualyze_num() ]:  generates appropriate visuals  	#
 # 				 	  for numerical data 				#
 def visualyze_num (df, column, save_path, plt, sns, style, color):
+# generates: histogram, box plot, violin plot, KDE plot, line plot, CDF plot
+	
 	# - histogram - #
-	# generate histogram
+	## generate histogram
 	plt.figure(figsize=(10,6))
 	sns.set_style(style) # dynamic style
-	sns.histplot(df[column], kde=True, palette = 'Set3')
+	sns.histplot(df[column], kde=True, color=color) # dynamic color
 	plt.title(f"Histogram of {column}")
 
-	# DataView branding
+	## DataView branding
 	plt.text(x=0.5, y=-0.05, s="Made with DataView (github.com/ETA444)", 
 				fontsize=10, ha='center', va='bottom', color='grey', 
 					transform=plt.gca().transAxes)
 
-	# save histogram
-	hist_fname = f"{column}-histogram-{style}.png"
-	output_histogram = os.path.join(save_path, hist_fname) # dynamic save path
-	plt.savefig(output_histogram)
+	## save histogram
+	hist_fname = f"{column}-histogram-{style}-{color}.png"
+	plt.savefig(os.path.join(save_path, hist_fname)) # dynamic save path
 	plt.close()
 
-	# inform user
+	## inform user
 	print(f"{Colors.BLUE}[SUCCESS] Saved histogram of \'{column}\' column as \'{hist_fname}\' in: {save_path}{Colors.RESET}")
 
 	# - boxplot - #
-	# generate boxplot
+	## generate boxplot
 	plt.figure(figsize=(10,6))
 	sns.set_style(style) # dynamic style
 	sns.boxplot(y=df[column], color=color) # dynamic color
 	plt.title(f"Boxplot of {column}")
 
-	# DataView branding
+	## DataView branding
 	plt.text(x=0.5, y=-0.05, s="Made with DataView (github.com/ETA444)", 
 				fontsize=10, ha='center', va='bottom', color='grey', 
 					transform=plt.gca().transAxes)
 
-	# save boxplot
+	## save boxplot
 	box_fname = f"{column}-boxplot-{style}-{color}.png"
-	output_boxplot = os.path.join(save_path, box_fname) # dynamic save path
-	plt.savefig(output_boxplot)
+	plt.savefig(os.path.join(save_path, box_fname)) # dynamic save path
 	plt.close()
 
-	# inform user
+	## inform user
 	print(f"{Colors.BLUE}[SUCCESS] Saved boxplot of \'{column}\' column as \'{box_fname}\' in: {save_path}{Colors.RESET}")
+
+
+	# - violin plot - #
+	## generate violin plot
+	plt.figure(figsize=(10,6))
+	sns.set_style(style) # dynamic style
+	sns.violinplot(y=df[column], color=color) # dynamic color
+	plt.title(f"Violin Plot of {column}")
+
+	## DataView branding
+	plt.text(x=0.5, y=-0.05, s="Made with DataView (github.com/ETA444)", 
+				fontsize=10, ha='center', va='bottom', color='grey', 
+					transform=plt.gca().transAxes)
+
+	## save boxplot
+	violin_fname = f"{column}-violinplot-{style}-{color}.png"
+	plt.savefig(os.path.join(save_path, violin_fname)) # dynamic save path
+	plt.close()
+
+	## inform user
+	print(f"{Colors.BLUE}[SUCCESS] Saved violin plot of \'{column}\' column as \'{violin_fname}\' in: {save_path}{Colors.RESET}")
+
+
+	# - KDE plot - #
+	## generate KDE plot
+	plt.figure(figsize=(10,6))
+	sns.set_style(style) # dynamic style
+	sns.kdeplot(df[column], color=color, fill=True) # dynamic color
+	plt.title(f"KDE Plot of {column}")
+	
+	## DataView branding
+	plt.text(x=0.5, y=-0.05, s="Made with DataView (github.com/ETA444)", 
+				fontsize=10, ha='center', va='bottom', color='grey', 
+					transform=plt.gca().transAxes)
+
+	## save KDE plot
+	kde_fname = f"{column}-kdeplot-{style}-{color}.png"
+	plt.savefig(os.path.join(save_path, kde_fname)) # dynamic save path
+	plt.close()
+
+	## inform user
+	print(f"{Colors.BLUE}[SUCCESS] Saved KDE plot of \'{column}\' column as \'{kde_fname}\' in: {save_path}{Colors.RESET}")
+
+
+	# - line plot - #
+	## generate line plot
+	plt.figure(figsize=(10,6))
+	sns.set_style(style) # dynamic style
+	sns.lineplot(data=df[column], color=color) # dynamic color
+	plt.title(f"Line Plot of {column}")
+
+	## DataView branding
+	plt.text(x=0.5, y=-0.05, s="Made with DataView (github.com/ETA444)", 
+				fontsize=10, ha='center', va='bottom', color='grey', 
+					transform=plt.gca().transAxes)
+
+	## save line plot
+	line_fname = f"{column}-lineplot-{style}-{color}.png"
+	plt.savefig(os.path.join(save_path, line_fname)) # dynamic save path
+	plt.close()
+
+	## inform user
+	print(f"{Colors.BLUE}[SUCCESS] Saved line plot of \'{column}\' column as \'{line_fname}\' in: {save_path}{Colors.RESET}")
+
+
+	# - CDF plot - #
+	## generate CDF plot
+	plt.figure(figsize=(10,6))
+	sns.set_style(style) # dynamic style
+	sns.ecdfplot(df[column], color=color) # dynamic color
+	plt.title(f"CDF Plot of {column}")
+
+	## DataView branding
+	plt.text(x=0.5, y=-0.05, s="Made with DataView (github.com/ETA444)", 
+				fontsize=10, ha='center', va='bottom', color='grey', 
+					transform=plt.gca().transAxes)
+
+	## save CDF plot
+	cdf_fname = f"{column}-cdfplot-{style}-{color}.png"
+	plt.savefig(os.path.join(save_path, cdf_fname)) # dynamic save path
+	plt.close()
+
+	## inform user
+	print(f"{Colors.BLUE}[SUCCESS] Saved CDF plot of \'{column}\' column as \'{cdf_fname}\' in: {save_path}{Colors.RESET}")
+
+
+
 
 
 # [ visualyze_cat() ]:  generates appropriate visuals 	#
 # 				 	  for felines 						#
 def visualyze_cat(df, column, save_path, plt, sns, style, color):
+# generates: count plot, pie chart, donut chart, bar plot, word cloud
 	
-	# - vertical countplot - #
-	## generate countplot
+	# - vertical count plot - #
+	## generate count plot
 	plt.figure(figsize=(10,6))
 	sns.set_style(style) # dynamic style
-	sns.countplot(y=df[column], color=color) # dynamic color
+	sns.countplot(y=df[column], palette='Set3') # dynamic color
 	plt.title(f"Count Plot of {column}")
 
 	## DataView branding
@@ -138,8 +226,7 @@ def visualyze_cat(df, column, save_path, plt, sns, style, color):
 
 	## save countplot
 	count_fname = f"{column}-countplot-{style}-{color}.png"
-	output_countplot = os.path.join(save_path, count_fname) # dynamic save path
-	plt.savefig(output_countplot)
+	plt.savefig(os.path.join(save_path, count_fname)) # dynamic save path
 	plt.close()
 
 	## inform user
@@ -218,6 +305,11 @@ def visualyze_cat(df, column, save_path, plt, sns, style, color):
 	plt.axis('off')
 	plt.title(f"Word Cloud of {column}")
 
+	## DataView branding
+	plt.text(x=0.5, y=-0.05, s="Made with DataView (github.com/ETA444)", 
+				fontsize=10, ha='center', va='bottom', color='grey', 
+					transform=plt.gca().transAxes)
+
 	## save word cloud
 	cloud_fname = f"{column}-wordcloud.png"
 	plt.savefig(os.path.join(save_path, cloud_fname))
@@ -225,11 +317,6 @@ def visualyze_cat(df, column, save_path, plt, sns, style, color):
 
 	## inform user
 	print(f"{Colors.BLUE}[SUCCESS] Saved word cloud of \'{column}\' column as \'{cloud_fname}\' in: {save_path}{Colors.RESET}")
-
-
-
-
-
 
 # [ descrybe_num() ]: calculate descriptive statistics for #
 # 					numerical data 						 #
