@@ -1,0 +1,20 @@
+Frequency Counts for Genre:
+Genre
+Comedy       172
+Action       154
+Drama        101
+Horror        49
+Thriller      36
+Adventure     29
+Romance       18
+
+Statistics for Budget (million $):
+count    559.000000
+mean      50.236136
+std       48.731817
+min        0.000000
+25%       20.000000
+50%       35.000000
+75%       65.000000
+max      300.000000
+

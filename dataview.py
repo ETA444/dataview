@@ -73,7 +73,7 @@ def read_csv(file_path, pd):
 # 					  user which columns they will work with #
 def select_columns(df):
 	print(f"{Colors.GREEN}Available columns: ", df.columns.tolist(), f"{Colors.RESET}")
-	ui_columns = input(f"{Colors.GREEN}Enter the column(s) you want to work with (use , to seperate): {Colors.RESET}")
+	ui_columns = input(f"{Colors.GREEN}Enter the column(s) you want to work with (use , to seperate; no quatation marks): {Colors.RESET}")
 
 	# handle no columns selected
 	if not ui_columns:
@@ -239,7 +239,7 @@ def visualyze_cat(df, column, save_path, plt, sns, style, color):
 	## generate count plot
 	plt.figure(figsize=(10,6))
 	sns.set_style(style) # dynamic style
-	sns.countplot(y=df[column], palette='Set3') # dynamic color
+	sns.countplot(y=df[column]) # dynamic color
 	plt.title(f"Count Plot of {column}")
 
 	## DataView branding
