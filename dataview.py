@@ -84,6 +84,11 @@ def visualyze_num (df, column, save_path, plt, sns, style, color):
 	sns.histplot(df[column], kde=True, color=color) # dynamic color
 	plt.title(f"Histogram of {column}")
 
+	# DataView branding
+	plt.text(x=0.5, y=-0.05, s="Made with DataView (github.com/ETA444)", 
+				fontsize=10, ha='center', va='bottom', color='grey', 
+					transform=plt.gca().transAxes)
+
 	# save histogram
 	hist_fname = f"{column}-histogram.png"
 	output_histogram = os.path.join(save_path, hist_fname) # dynamic save path
@@ -99,6 +104,11 @@ def visualyze_num (df, column, save_path, plt, sns, style, color):
 	sns.set_style(style) # dynamic style
 	sns.boxplot(y=df[column], color=color) # dynamic color
 	plt.title(f"Boxplot of {column}")
+
+	# DataView branding
+	plt.text(x=0.5, y=-0.05, s="Made with DataView (github.com/ETA444)", 
+				fontsize=10, ha='center', va='bottom', color='grey', 
+					transform=plt.gca().transAxes)
 
 	# save boxplot
 	box_fname = f"{column}-boxplot.png"
@@ -119,6 +129,11 @@ def visualyze_cat(df, column, save_path, plt, sns, style, color):
 	sns.set_style(style) # dynamic style
 	sns.countplot(y=df[column], color=color) # dynamic color
 	plt.title(f"Count Plot of {column}")
+
+	# DataView branding
+	plt.text(x=0.5, y=-0.05, s="Made with DataView (github.com/ETA444)", 
+				fontsize=10, ha='center', va='bottom', color='grey', 
+					transform=plt.gca().transAxes)
 
 	# save countplot
 	count_fname = f"{column}-countplot.png"
@@ -209,6 +224,9 @@ def dataview():
 		if df is not None:
 			selected_columns = select_columns(df)
 
+			# color and style dialog
+			style = input(f"{Colors.MAGENTA}[CUSTOMIZATION-STYLE] What style would you like the plots to have? \n (darkgrid / whitegrid / dark / white / ticks / ...): {Colors.RESET}")
+			color = input(f"{Colors.MAGENTA}[CUSTOMIZATION-COLOR] What color would you like the main color of the plots to be? \n (skyblue / salmon / lightgreen / sandybrown / orchid / steelblue / ...): {Colors.RESET}")
 		# define save path for descriptives
 		# note: for the visuals it is done inside the helper functions
 		csv_name_without_extension = (file_path.split('/')[-1]).split('.')[0]
@@ -217,10 +235,10 @@ def dataview():
 		with open(descriptive_stats_file, 'w') as stats_file:
 			for column in selected_columns:
 				if is_num(df[column], pd):
-					visualyze_num(df, column, save_path, plt, sns)
+					visualyze_num(df, column, save_path, plt, sns, style, color)
 					descrybe_num(df, column, stats_file)
 				elif is_cat(df[column], pd):
-					visualyze_cat(df, column, save_path, plt, sns)
+					visualyze_cat(df, column, save_path, plt, sns, style, color)
 					descrybe_cat(df, column, stats_file)
 				else:
 					print(f"{Colors.RED}[NOTICE] Column {column} is neither strictly numerical nor categorical. No visualizations or descriptives were generated.{Colors.RESET}")
