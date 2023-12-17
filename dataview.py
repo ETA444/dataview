@@ -365,12 +365,13 @@ def dataview():
 
 	# welcome dialogue #
 	print(f"{Colors.BLUE} Welcome to DataView! (version 1.0)")
-	print(f"Notes: ")
-	print(f"(1) DataView 1.0 only works with clean data.")
-	print(f"(2) DataView 1.0 distinguishes between numerical and categorical data and generates the appropriate visuals and descriptive statistics.")
-	print(f"(3) DataView 1.0 generates: histograms, boxplots and countplots as .PNG\'s.")
-	print(f"(4) The descriptive statistics are saved into .TXT\'s.")
-	print(f"* All files are saved in the current directory. *{Colors.RESET}")
+	print(f"Functionality: ")
+	print(f"[DATA-quality] DataView only works with clean data in CSV format.")
+	print(f"[DATA-types] DataView distinguishes between numerical and categorical data and generates the appropriate plots and descriptive statistics.{Colors.RESET}")
+	print(f"{Colors.CYAN}[OUTPUT] DataView saves the plots to a folder chosen by you.{Color.RESET}")
+	print(f"{Colors.GREEN}[PLOTS-Numerical] For numerical data, DataView generates: histograms, box plots, violin plots, KDE plots, line plots and CDF plots.")
+	print(f"{Colors.GREEN}[PLOTS-Categorical] For categorical data, DataView generates: count plots, pie charts, donut charts, bar plots and word clouds.{Color.RESET}")
+	print(f"{Colors.MAGENTA}[CUSTOMIZATION-Style & Color] You can choose the style and color of the plots.{Colors.RESET}")
 
 	# set up a root window for tk but don't display it #
 	root = tk.Tk()
