@@ -2,7 +2,7 @@
 # generating visualizations and descriptive statistics 
 # for numerical and categorical data.
 
-# --- imports --- #
+# --- library imports --- #
 import os
 import sys
 import subprocess
@@ -12,6 +12,17 @@ import seaborn as sns
 import numpy as np
 import wordcloud
 from wordcloud import WordCloud
+
+# --- classes --- #
+class Colors:
+    RED = '\033[91m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    BLUE = '\033[94m'
+    MAGENTA = '\033[95m'
+    CYAN = '\033[96m'
+    WHITE = '\033[97m'
+    RESET = '\033[0m'
 
 
 # --- generative helpers --- #
@@ -150,7 +161,7 @@ def visualyze_num (df, column, save_path, style, color):
 
 
 # [ visualyze_cat() ]:  generates appropriate visuals 	#
-# 				 	  for felines 						#
+# 				 	    for categorical data 			#
 def visualyze_cat(df, column, save_path, style, color):
 # generates: count plot, pie chart, donut chart, bar plot, word cloud
 	

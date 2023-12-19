@@ -9,12 +9,13 @@
 - **Visualizations**: Generate various plots for numerical and categorical data, and save them as .PNG.
 - **Descriptive Statistics**: Calculate and save descriptive statistics into a .TXT.
 - **Customization**: User can choose plot styles and colors.
+- **Naming:** From file names, to plot axes and titles, DataView names everything thoughtfully, systematically and intuitively.
 - **Ease of Use**: With a few prompts in your terminal you choose your .CSV, then the save path of the output and the colors and style of the plots. Next you specify the columns you want DataView to do its magic on and it's done!
 
 ---
 ## Directory Structure
 
-```bash
+```
 DataView/
 │
 ├── archive/
@@ -98,33 +99,43 @@ Includes functions for generating visualizations and descriptive statistics:
 
 ### Prerequisites
 - Python 3.x
-- Libraries: pandas, matplotlib, seaborn, numpy, tkinter, wordcloud
+- Libraries utilized by DataView:
+	- pandas
+	- matplotlib
+	- seaborn
+	- numpy
+	- wordcloud
+	- sys
+	- os
+	- subprocess
+	- tkinter
 
 ### Setup
 1. Clone the repository:
-   ```bash
+   ```powershell
    git clone https://github.com/ETA444/dataview.git
    ```
 2. Navigate to the DataView directory:
-   ```bash
+   ```powershell
    cd dataview
    ```
 3. Install the required libraries*:
-   ```bash
+   ```powershell
    pip install -r requirements.txt
    ```
 \* *The script has a built in way of checking and installing (with consent) the missing packages, however you can opt to install them manually, as instructed above.*
 ### Running DataView
 Execute the script and follow the on-screen instructions:
-```bash
+```powershell
 python dataview.py
 ```
 
 #### DataView Prompt Sequence
 1.  **CSV File:** Opens a browse window so the user can choose the .CSV file
 2. **Output Save Path:** Opens a browse window so the user can choose where to save the plots and descriptive statistics files.
-3. **Customization - Style:** Asks user to choose an SNS style for the plots.
-4. **Customization - Color:** Asks use to choose color for the plots.
+3. **Column/Variable Selection:** Lists available variables in the .csv and requests user to type in the names of the desired columns, separated by commas.
+4. **Customization - Style:** Asks user to choose an SNS style for the plots.
+5. **Customization - Color:** Asks use to choose color for the plots.
 
 ---
 ## Contributing

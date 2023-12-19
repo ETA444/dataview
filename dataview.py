@@ -2,13 +2,23 @@
 import os
 import sys
 import subprocess
+import tkinter as tk
+from tkinter import filedialog
 
 # --- helper function imports --- #
-from helpers.utilities import Colors, check_libraries, install_libraries, open_dir, dataview_logo, read_csv, select_columns, is_num, is_cat
+from helpers.utilities import check_libraries, install_libraries, open_dir, dataview_logo, read_csv, select_columns, is_num, is_cat
 from helpers.generative import visualyze_cat, visualyze_num, descrybe_num, descrybe_cat
-# note: In order for the library check to work, library imports of 
-# some libraries are conditional and inside the logic of the main function.
 
+# --- classes --- #
+class Colors:
+    RED = '\033[91m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    BLUE = '\033[94m'
+    MAGENTA = '\033[95m'
+    CYAN = '\033[96m'
+    WHITE = '\033[97m'
+    RESET = '\033[0m'
 
 # --- main function --- #
 def dataview():
@@ -30,14 +40,6 @@ def dataview():
 			print(f"{Colors.RED}[SETUP-ENDED] DataView relies on these libraries to run.")
 			print(f"[SETUP-ENDED] Exiting DataView.{Colors.RESET}")
 			sys.exit(1)
-
-	# - conditional library imports - #
-	import pandas as pd
-	import matplotlib.pyplot as plt
-	import seaborn as sns
-	import numpy as np
-	import tkinter as tk
-	from tkinter import filedialog
 
 
 	# - welcome dialogue - #
@@ -79,7 +81,7 @@ def dataview():
 			print(f"{Colors.WHITE}-----------------------------------------------------------------------------{Colors.RESET}")
 		
 		# - create local dataframe to work with - #
-		df = read_csv(file_path, pd)
+		df = read_csv(file_path)
 
 		# - style and color customization - #
 		if df is not None:

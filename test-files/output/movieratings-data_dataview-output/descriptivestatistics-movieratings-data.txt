@@ -1,0 +1,10 @@
+Frequency Counts for Genre:
+Genre
+Comedy       172
+Action       154
+Drama        101
+Horror        49
+Thriller      36
+Adventure     29
+Romance       18
+

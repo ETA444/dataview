@@ -2,15 +2,16 @@
 # but are not directly involved in data processing or visualization. 
 # They perform auxiliary tasks like reading CSV files.
 
-# --- imports --- #
+# --- library imports --- #
 import os
 import sys
 import subprocess
+import pandas as pd
 import tkinter as tk
 from tkinter import filedialog
 
 
-# --- utility classes --- #
+# --- classes --- #
 class Colors:
     RED = '\033[91m'
     GREEN = '\033[92m'
@@ -98,5 +99,5 @@ def is_num(series):
 
 
 # [ is_cat() ]: identifies categorical columns #
-def is_cat(series, pd):
+def is_cat(series):
 	return isinstance(series.dtype, pd.CategoricalDtype) or series.dtype == object
