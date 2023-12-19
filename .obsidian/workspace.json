@@ -148,6 +148,7 @@
   },
   "active": "8c439c5f655a39c0",
   "lastOpenFiles": [
+    "archive/version-log/dataview(1.0).zip",
     "archive/dataview-ver-log/1.0/test-files/input/movieratings-data.csv",
     "archive/dataview-ver-log/1.0/test-files/input/demographic-data.csv",
     "archive/dataview-ver-log/1.0/test-files/input/organizations-data.csv",
@@ -159,7 +160,6 @@
     "archive/dataview-ver-log/1.0/helpers/generative.py",
     "archive/dataview-ver-log/1.0/test-files/input",
     "archive/dataview-ver-log/1.0/helpers/__pycache__",
-    "archive/dataview-ver-log/1.0/requirements.txt",
     "archive/dataview-ver-log/1.0/README.md",
     "archive/dataview-ver-log/1.0/test-files/output/organizations-data_dataview-output/Number of employees-lineplot-white-skyblue.png",
     "archive/dataview-ver-log/1.0/test-files/output/organizations-data_dataview-output/Number of employees-violinplot-white-skyblue.png",

@@ -2,7 +2,7 @@
 ### Quick way to get basic visualizations and descriptive statistics from a .csv file.
 
 - **Mission:** My mission with DataView is to create a simple way to gain a birds-eye view of a dataset through visualizations and descriptive statistics. With DataView you have beautiful Seaborn plots just a few prompts away.
-- **Languages:** This idea started off as a Ruby script, however due to limitations of Ruby when it comes to data science, I have chosen to consolidate it and continue in Python exclusively. The Ruby script is kept as the legacy of the idea (`archive/dataview.rb`).
+- **Languages:** This idea started off as a Ruby script, however due to limitations of Ruby when it comes to data science, I have chosen to consolidate it and continue in Python exclusively. The Ruby script is kept as the legacy of the idea in the archive folder.
 
 ## Features
 
@@ -19,7 +19,13 @@
 DataView/
 │
 ├── archive/
-│   └── dataview.rb # legacy Ruby script
+│   ├── legacy-scripts/  # utility functions
+│   │   ├── dataview.rb  # legacy Ruby script
+│   │   └── dataview.py  # legacy Python script
+│   │
+│   └── version-log/ # zips of dataview versions 
+│       ├── dataview(1.0).zip
+│       └── ...
 │
 ├── helpers/
 │   ├── utilities.py  # utility functions
@@ -38,7 +44,7 @@ DataView/
 │       ├── descrybe_num()
 │       └── descrybe_cat()
 │
-├── other/ # other repo resources
+├── other/ 
 │   └── dataview-github-banner-1.PNG 
 │
 ├── test-files/
@@ -49,16 +55,16 @@ DataView/
 │   │
 │   └── output/  # output of DataView on sample .CSV's
 │       ├── demographic-data_dataview-output/
-│       │   └── ..
+│       │   └── ...
 │       ├── movieratings-data_dataview-output/
-│       │   └── ..
+│       │   └── ...
 │       └── organizations-data_dataview-output/
-│           └── ..
+│           └── ...
 │
 │
+├── README.md          # Documentation and usage guide
 ├── dataview.py        # Main script to run DataView
-├── requirements.txt   # Required Python libraries
-└── README.md          # Documentation and usage guide
+└── requirements.txt   # Required Python libraries
 
 ```
 
