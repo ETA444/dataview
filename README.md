@@ -14,7 +14,7 @@
 ---
 ## Directory Structure
 
-```powershell
+```bash
 DataView/
 │
 ├── archive/
