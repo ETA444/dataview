@@ -112,21 +112,21 @@ Includes functions for generating visualizations and descriptive statistics:
 
 ### Setup
 1. Clone the repository:
-   ```powershell
+   ``` bash
    git clone https://github.com/ETA444/dataview.git
    ```
 2. Navigate to the DataView directory:
-   ```powershell
+   ```bash
    cd dataview
    ```
 3. Install the required libraries*:
-   ```powershell
+   ```bash
    pip install -r requirements.txt
    ```
 \* *The script has a built in way of checking and installing (with consent) the missing packages, however you can opt to install them manually, as instructed above.*
 ### Running DataView
 Execute the script and follow the on-screen instructions:
-```powershell
+```bash
 python dataview.py
 ```
 
