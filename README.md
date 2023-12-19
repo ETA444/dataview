@@ -16,7 +16,7 @@
 ## Directory Structure
 
 ```
-DataView/
+dataview/
 │
 ├── archive/
 │   ├── legacy-scripts/  # utility functions
@@ -129,7 +129,7 @@ Includes functions for generating visualizations and descriptive statistics:
    ```bash
    pip install -r requirements.txt
    ```
-\* *The script has a built in way of checking and installing (with consent) the missing packages, however you can opt to install them manually, as instructed above.*
+\* *The script has a built in way of checking and installing the missing packages (with consent), however you can opt to install them manually, as instructed above.*
 ### Running DataView
 Execute the script and follow the on-screen instructions:
 ```bash
